@@ -1,4 +1,4 @@
 package com.back.domain.global;
 
-public record RsData(String resultCode, String msg) {
+public record RsData<T>(String resultCode, String msg, T data) {
 }

@@ -1,5 +1,6 @@
 package com.back.domain.post.post.controller;
 
+import com.back.domain.global.RsData;
 import com.back.domain.post.post.dto.PostDto;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.service.PostService;
@@ -33,5 +34,19 @@ public class ApiV1PostController {
         Post post = postService.findById(id).get();
 
         return new PostDto(post);
+    }
+
+    @GetMapping("/{id}/delete")
+    @Transactional
+    public RsData<PostDto> delete(@PathVariable int id) {
+        Post post = postService.findById(id).get();
+
+        postService.delete(post);
+
+        return new RsData<>(
+                "200-1",
+                "%d번 글이 삭제되었습니다.".formatted(id),
+                new PostDto(post)
+        );
     }
 }
