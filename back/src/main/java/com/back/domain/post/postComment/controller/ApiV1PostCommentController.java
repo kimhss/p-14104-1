@@ -1,6 +1,6 @@
 package com.back.domain.post.postComment.controller;
 
-import com.back.domain.global.RsData;
+import com.back.global.rsData.RsData;
 import com.back.domain.post.post.entity.Post;
 import com.back.domain.post.post.service.PostService;
 import com.back.domain.post.postComment.dto.PostCommentDto;
