@@ -6,8 +6,8 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -106,6 +106,7 @@ public class ApiV1PostControllerTest {
                 .andExpect(jsonPath("$.msg").value("%d번 글이 삭제되었습니다.".formatted(id)));
     }
 
+
     @Test
     @DisplayName("글 단건조회")
     void t4() throws Exception {
@@ -129,6 +130,24 @@ public class ApiV1PostControllerTest {
                 .andExpect(jsonPath("$.title").value(post.getTitle()))
                 .andExpect(jsonPath("$.content").value(post.getContent()));
     }
+
+    @Test
+    @DisplayName("글 단건조회, 404")
+    void t6() throws Exception {
+        int id = Integer.MAX_VALUE;
+
+        ResultActions resultActions = mvc
+                .perform(
+                        get("/api/v1/posts/" + id)
+                )
+                .andDo(print());
+
+        resultActions
+                .andExpect(handler().handlerType(ApiV1PostController.class))
+                .andExpect(handler().methodName("getItem"))
+                .andExpect(status().isNotFound());
+    }
+
 
     @Test
     @DisplayName("글 다건조회")
